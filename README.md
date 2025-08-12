@@ -8,6 +8,7 @@ Stage 1 – Setup & Scene Setting
     Add .gitignore & basic folder structure (data/, notebooks/, src/)
 
 Stage 2 – Data Gathering
+
     Download cat images (10–20 minimum, Kaggle or manual)
     Get stock price history for at least 1 meme stock (GME/AMC)
     Fetch moon phase data (API or mock data)

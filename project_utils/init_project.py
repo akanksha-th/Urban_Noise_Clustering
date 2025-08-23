@@ -43,6 +43,8 @@ list_of_files = [
     
     ".gitignore",
     "requirements.txt",
+    "run_pipeline.py",
+    "run_deployment.py",
     "setup.py",
     "README.md"
 ]

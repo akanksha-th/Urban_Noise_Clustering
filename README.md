@@ -54,3 +54,6 @@
             model_building_step.py
             model_evaluator_step.py
             __init__.py
+
+⚠️ This project uses Git LFS to store the dataset.
+Run 'git lfs install' before cloning to download the dataset automatically.

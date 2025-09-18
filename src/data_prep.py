@@ -90,6 +90,13 @@ class Preprocess:
         self._df["latitude"] = self._df.apply(fill_lat, axis=1)
         self._df["longitude"] = self._df.apply(fill_long, axis=1)
 
+        # Merge centroids and fill missing lat/long
+        # self._df = self._df.merge(zip_centroids, on="incident_zip", how="left", suffixes=("", "_centroid"))
+        # self._df["latitude"] = self._df["latitude"].fillna(self._df["latitude_centroid"])
+        # self._df["longitude"] = self._df["longitude"].fillna(self._df["longitude_centroid"])
+        # self._df = self._df.drop(columns=["latitude_centroid", "longitude_centroid"])
+
+        self._df = self._df.dropna(subset=["latitude", "longitude"])
         return self._df
     
     def run_preprocessor(self) -> pd.DataFrame:

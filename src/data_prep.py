@@ -29,6 +29,10 @@ class Preprocess:
         self._df = df.copy()
 
     def clean(self) -> pd.DataFrame:
+        # Standardizing column names
+        self._df.columns = self._df.columns.str.strip().str.lower().str.replace(" ", "_")
+
+        # 
         pass
 
     def engineer_time_features(self) -> pd.DataFrame:

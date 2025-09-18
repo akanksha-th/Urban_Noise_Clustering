@@ -7,24 +7,73 @@ import matplotlib.pyplot as plt
 
 
 class EDA:
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self, df: pd.DataFrame, save_path: str = None):
         self._df = df.copy()
+        self.save_path = save_path
 
-    def _plot_time_trends(self, ax=None):
-        pass
+    def _plot_time_trends(self):
+        os.makedirs("outputs/time_trends", exist_ok=True)
+
+        plt.figure(figsize=(12,5))
+        sns.countplot(x="month", data=self._df, palette="viridis", hue="noise_category")
+        plt.title("Noise Complaints by Month of the Year")
+        if self.save_path:
+            plt.savefig(os.path.join(self.save_path, "time_trends", "by_month.png"))
+            plt.close()
+        plt.show()
+
+        plt.figure(figsize=(12,5))
+        sns.countplot(x="hour", data=self._df, palette="viridis", hue="noise_category")
+        plt.title("Noise Complaints by Hour of Day")
+        if self.save_path:
+            plt.savefig(os.path.join(self.save_path, "time_trends", "by_hour.png"))
+            plt.close()
+        plt.show()
+
+        plt.figure(figsize=(12,5))
+        sns.countplot(x="day_of_week", data=self._df, order=[
+            "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], palette="magma", hue="noise_category")
+        plt.title("Noise Complaints by Day of Week")
+        if self.save_path:
+            plt.savefig(os.path.join(self.save_path, "time_trends", "by_day_of_week.png"))
+            plt.close()
+        plt.show()
+
+        plt.figure(figsize=(12,5))
+        sns.countplot(x="year", data=self._df, palette="viridis", hue="noise_category")
+        plt.title("Noise Complaint by Year")
+        if self.save_path:
+            plt.savefig(os.path.join(self.save_path, "time_trends", "by_year.png"))
+            plt.close()
+        plt.show()
 
     def _plot_borough_distribution(self, ax=None):
-        pass
+        if ax is None:
+            plt.figure(figsize=(8,5))
+
+        sns.countplot(x="borough", data=self._df, palette="coolwarm", hue="noise_category")
+        plt.title("Noise Complaints by Borough")
+        if self.save_path:
+            plt.savefig(os.path.join(self.save_path, "by_borough.png"))
+            plt.close()
+        plt.show()
 
     def _plot_complaint_types(self, top_n=10, ax=None):
-        pass
+        if ax is None:
+            plt.figure(figsize=(8,5))
+
+        top_types = self._df["noise_category"].value_counts().head(top_n)
+        sns.barplot(x=top_types.values, y=top_types.index, palette="Spectral")
+        plt.title("Top Noise Complaints by Complaint Types")
+        if self.save_path:
+            plt.savefig(os.path.join(self.save_path, "by_complaint_type.png"))
+            plt.close()
+        plt.show()
 
     def run_eda(self):
-        fig, ax = plt.subplots(1, 3, figsize=(20,12))
-
-        self._plot_time_trends(self._df, ax=ax[0])
-        self._plot_borough_distribution(self._df, ax=ax[1])
-        self._plot_complaint_types(self._df, ax=ax[2])
+        self._plot_time_trends()
+        self._plot_borough_distribution()
+        self._plot_complaint_types()
     
 
 class GeoEDA:
@@ -42,12 +91,12 @@ class GeoEDA:
     
 
 if __name__ == "__main__":
-    df = pd.read_csv(".data/processed/noise_data_cleaned.csv")
+    df = pd.read_csv(".data/processed/final_noise_data.csv")
     os.makedirs("outputs", exist_ok=True)
+    save_path = "outputs"
 
-    # eda = EDA(df)
-    # plots = eda.run_eda()
-    # plot.save("outputs/eda_plots.png")
+    eda = EDA(df, save_path)
+    eda.run_eda()
 
     geoeda = GeoEDA(df)
     heatmap = geoeda.plot_heatmap()

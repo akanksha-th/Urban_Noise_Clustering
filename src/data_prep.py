@@ -32,11 +32,25 @@ class Preprocess:
         # Standardizing column names
         self._df.columns = self._df.columns.str.strip().str.lower().str.replace(" ", "_")
 
-        # 
-        pass
+        # Prase datetime
+        if "created_date" in self._df.columns:
+            self._df["created_date"] = pd.to_datetime(self._df["created_date"], errors="coerce")
+        self._df = self._df.dropna(subset=["created_date"])
+        return self._df
 
     def engineer_time_features(self) -> pd.DataFrame:
-        pass
+        """
+        Create time-based features
+        """
+        if "created_date" in self._df.columns:
+            self._df["year"] = self._df["created_date"].dt.year
+            self._df["month"] = self._df["created_date"].dt.month
+            self._df["day"] = self._df["created_date"].dt.day
+            self._df["hour"] = self._df["created_date"].dt.hour
+            self._df["day_of_week"] = self._df["created_date"].dt.day_name()
+
+        print("Engineered Time Features")
+        return self._df
 
 
 if __name__ == "__main__":

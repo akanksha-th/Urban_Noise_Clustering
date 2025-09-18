@@ -13,7 +13,7 @@ class DataLoader:
         Load datset into pandas DataFrame
         """
         try:
-            df = pd.read_csv(self._filepath)
+            df = pd.read_csv(self._filepath, low_memory=False)
             print("Successfully Loaded File!!")
             return df
         except Exception as e:
@@ -28,17 +28,27 @@ class Preprocess:
     def __init__(self, df: pd.DataFrame):
         self._df = df.copy()
 
-    def clean(self) -> pd.DataFrame:
+    def _clean(self) -> pd.DataFrame:
         # Standardizing column names
         self._df.columns = self._df.columns.str.strip().str.lower().str.replace(" ", "_")
 
+        # Keep only relevant columns
+        keep_cols = [
+            "created_date", "complaint_type", "descriptor",
+            "borough", "incident_zip", "latitude", "longitude", "status"
+        ]
+        self._df = self._df[keep_cols]
+
         # Prase datetime
         if "created_date" in self._df.columns:
-            self._df["created_date"] = pd.to_datetime(self._df["created_date"], errors="coerce")
+            self._df["created_date"] = pd.to_datetime(
+                self._df["created_date"], 
+                format="%m/%d/%Y %I:%M:%S %p",
+                errors="coerce")
         self._df = self._df.dropna(subset=["created_date"])
         return self._df
 
-    def engineer_time_features(self) -> pd.DataFrame:
+    def _engineer_time_features(self) -> pd.DataFrame:
         """
         Create time-based features
         """
@@ -51,6 +61,42 @@ class Preprocess:
 
         print("Engineered Time Features")
         return self._df
+    
+    def _imputer(self) -> pd.DataFrame:
+        """
+        Impute missing latitude/longitude using zip code centroids
+        """
+        self._df["borough"] = self._df["borough"].fillna("UNKNOWN")
+        self._df = self._df.dropna(subset="incident_zip")
+
+        # Calculate centroid per incident_zip
+        zip_centroids = (
+            self._df.dropna(subset=["latitude", "longitude"])
+            .groupby("incident_zip")[["latitude", "longitude"]]
+            .mean()
+        )
+
+        # Fill missing lat/long using centroid of the same zip
+        def fill_lat(row):
+            if pd.isna(row["latitude"]) and row["incident_zip"] in zip_centroids.index:
+                return zip_centroids.loc[row["incident_zip"], "latitude"]
+            return row["latitude"]
+
+        def fill_long(row):
+            if pd.isna(row["longitude"]) and row["incident_zip"] in zip_centroids.index:
+                return zip_centroids.loc[row["incident_zip"], "longitude"]
+            return row["longitude"]
+
+        self._df["latitude"] = self._df.apply(fill_lat, axis=1)
+        self._df["longitude"] = self._df.apply(fill_long, axis=1)
+
+        return self._df
+    
+    def run_preprocessor(self) -> pd.DataFrame:
+        self._clean()
+        self._imputer()
+        self._engineer_time_features()
+        return self._df
 
 
 if __name__ == "__main__":
@@ -60,8 +106,7 @@ if __name__ == "__main__":
     df = loader.load_data()
 
     preprocessor = Preprocess(df)
-    cleaned_df = preprocessor.clean()
-    extended_df = preprocessor.engineer_time_features()
+    extended_df = preprocessor.run_preprocessor()
 
     os.makedirs(".data/processed", exist_ok=True)
     extended_df.to_csv(processed_path, index=False)

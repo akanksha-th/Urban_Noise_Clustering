@@ -6,58 +6,33 @@ This project builds a scalable ML pipeline for clustering urban noise patterns u
 
 ## Project Folders
 
-    │   .gitignore
-    │   LICENSE
-    │   README.md
-    │   requirements.txt
-    │   run_deployment.py
-    │   run_pipeline.py
-    │   setup.py
+    urban_noise_clustering/
     │
-    ├───.github
-    │   └───workflows
-    │           .gitkeep
+    ├── data/                   # sample datasets, input/output
+    ├── notebooks/              # experiments, EDA, scratch work
+    ├── src/                    # core package
+    │   ├── __init__.py
+    │   ├── data_prep.py        # Data cleaning + preprocessing
+    │   ├── clustering/
+    │   │   ├── __init__.py
+    │   │   ├── base.py
+    │   │   ├── kmeans_cluster.py
+    │   │   ├── dbscan_cluster.py
+    │   │   └── ensemble.py
+    │   ├── evaluation.py       # Metrics, silhouette, etc.
+    │   ├── visualization.py    # Plotting functions
+    │   └── utils.py            # Helpers (config, logging, etc.)
     │
-    ├───analysis
-    │   │   eda_and_fe.ipynb
-    │   │
-    │   └───analyze_src
-    │           bivariate_analysis.py
-    │           cluster_diagnostics.py
-    │           missing_value_analysis.py
-    │           multivariate_analysis.py
-    │           univariate_analysis.py
-    │           __init__.py
+    ├── app/                    
+    │   ├── streamlit_app.py    # Main Streamlit UI
+    │   └── components/         # reusable UI components
     │
-    ├───data
-    │       .gitkeep
-    │
-    ├───pipelines
-    │       deployment_pipeline.py
-    │       training_pipeline.py
-    │       __init__.py
-    │
-    ├───project_utils
-    │       init_project.py
-    │
-    ├───src
-    │       data_cleaning.py
-    │       data_ingester.py
-    │       data_splitter.py
-    │       feature_selection.py
-    │       feature_transformation.py
-    │       model_building.py
-    │       __init__.py
-    │
-    └───steps
-            data_cleaning_step.py
-            data_ingester_step.py
-            data_splitter_step.py
-            feature_selection_step.py
-            feature_transformation_step.py
-            model_building_step.py
-            model_evaluator_step.py
-            __init__.py
+    ├── tests/                  # unit tests for each module
+    ├── requirements.txt
+    ├── README.md
+    ├── setup.py (optional)     # if making pip-installable
+    └── pipeline.py 
+
 
 ⚠️ This project uses Git LFS to store the dataset.
 Run 'git lfs install' before cloning to download the dataset automatically.

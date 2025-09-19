@@ -56,6 +56,8 @@ def group_complaints(df: pd.DataFrame) -> pd.DataFrame:
     df["noise_category"] = df["descriptor"].map(mapping)
     df["noise_category"] = df["noise_category"].fillna("Other Noise")
 
+    df.drop(columns='complaint_type', inplace=True)
+
     return df
 
 if __name__ == "__main__":

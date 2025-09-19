@@ -35,7 +35,7 @@ class Preprocess:
         # Keep only relevant columns
         keep_cols = [
             "created_date", "complaint_type", "descriptor",
-            "borough", "incident_zip", "latitude", "longitude", "status"
+            "borough", "incident_zip", "latitude", "longitude"
         ]
         self._df = self._df[keep_cols]
 

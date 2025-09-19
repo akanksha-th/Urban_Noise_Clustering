@@ -1,4 +1,6 @@
 import numpy as np
+import os
+import json
 from sklearn.cluster import KMeans, AgglomerativeClustering, DBSCAN
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 
@@ -35,10 +37,13 @@ class BaseLine:
         all_labels["Agglomerative"] = agg_labels
 
         # DBSCAN
-        db = DBSCAN(eps=0.3, min_samples=10)
-        db_labels = db.fit_predict(self.X)
-        results.update(self._evaluate_clustering(self.X, db_labels, "DBSCAN"))
-        all_labels["DBSCAN"] = db_labels
+        try:
+            db = DBSCAN(eps=0.8, min_samples=20, n_jobs=-1)  # tuned for speed
+            db_labels = db.fit_predict(self.X)
+            results.update(self._evaluate_clustering(db_labels, "DBSCAN"))
+            all_labels["DBSCAN"] = db_labels.tolist()
+        except Exception as e:
+            print(f"⚠️ DBSCAN failed: {e}")
 
         return results, all_labels
     
@@ -50,3 +55,13 @@ if __name__ == "__main__":
     print("Baseline Results:")
     for model, vals in metrics.items():
         print(model, vals)
+
+    os.makedirs("outputs/results", exist_ok=True)
+
+    with open("outputs/results/baseline_metrics.json", "w") as f:
+        json.dump(metrics, f, indent=4)
+
+    with open("outputs/results/baseline_labels.json", "w") as f:
+        json.dump(labels, f, indent=4)
+
+    print("\nResults saved in outputs/results/")

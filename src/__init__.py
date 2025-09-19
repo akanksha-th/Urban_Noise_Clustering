@@ -1,7 +1,7 @@
 from .data_prep import DataLoader, Preprocess
 from .visualizations import EDA, GeoEDA
 from .utils import group_complaints
-from .feature_engg import FeatureEngineer
+from .feature_engg import FeatureEngineer, build_pipeline
 import clustering
 
 __all__ =[
@@ -11,5 +11,6 @@ __all__ =[
     "GeoEDA",
     "group_complaints",
     "FeatureEngineer",
-    "clustering"
+    "clustering",
+    "build_pipeline"
 ]

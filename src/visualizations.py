@@ -60,7 +60,7 @@ class EDA:
 
     def _plot_complaint_types(self, top_n=10, ax=None):
         if ax is None:
-            plt.figure(figsize=(8,5))
+            plt.figure(figsize=(10,5))
 
         top_types = self._df["noise_category"].value_counts().head(top_n)
         sns.barplot(x=top_types.values, y=top_types.index, palette="Spectral")

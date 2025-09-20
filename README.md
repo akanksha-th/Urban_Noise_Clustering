@@ -60,25 +60,25 @@ To rerun the pipeline on your local PC, kindly download the dataset from the fol
 
 ## Installation
 
-# Clone the repo
+### Clone the repo
 ```bash
 git clone <git-repo-url>
 cd Urban_Noise_Clustering
 ```
 
-# Set up virtual environment
+### Set up virtual environment
 ```bash
 python -m venv .clustering_venv
 .clustering_venv\Scripts\activate       # Windows
 source .clustering_venv/bin/activate    # Linux/Mac
 ```
 
-# Install Dependencies
+### Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-# Running the pipeline
+### Running the pipeline
 Run the full ML pipeline (data prep → features → visualizations → clustering):
 ```bash
 python pipeline.py
@@ -89,8 +89,12 @@ Artifacts produced:
     - Clustering results → outputs/results/
     - Visualizations → outputs/*.png, *.html
 
-# Launch the Dashboard
+### Launch the Dashboard
 ```bash
 cd dashboard
 python app.py
 ```
+
+## Dashboard Preview
+
+![Dashboard](dashboard/static/dashboard.gif)

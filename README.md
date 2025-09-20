@@ -11,8 +11,9 @@ This project builds a scalable ML pipeline for clustering urban noise patterns u
     ├── .data/  
     │                 
     ├── notebooks/   
-    │   ├── __init__.py
-    │   └── data_prep.py 
+    │   ├── 00.data_lookup.ipynb
+    │   ├── 01.data_exploration.ipynb
+    │   └── 02.eda.ipynb 
     │ 
     ├── outputs/   
     │   ├── results/
@@ -31,9 +32,16 @@ This project builds a scalable ML pipeline for clustering urban noise patterns u
     │
     ├── dashboard/                    
     │   ├── app.py    
+    │   ├── pages/
+    │   │   ├── __init__.py
+    │   │   ├── home.py
+    │   │   ├── charts.py
+    │   │   └── map.py  
     │   ├── templates/
-    │   │   ├── index.html
-    │   │   └── charts.html     
+    │   │   ├── base.html
+    │   │   ├── home.html
+    │   │   ├── charts.html     
+    │   │   └── map.html     
     │   └── static/      
     │       └── styles.css        
     │

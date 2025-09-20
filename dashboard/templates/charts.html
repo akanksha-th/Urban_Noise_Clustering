@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Noise Complaints Visualizations</h2>
+    {% for img in images %}
+        <div class="chart-card">
+            <h3>{{ img.title }}</h3>
+            <img src="{{ url_for('outputs_static', filename=img.file) }}" alt="{{ img.title }}">
+        </div>
+    {% endfor %}
+{% endblock %}

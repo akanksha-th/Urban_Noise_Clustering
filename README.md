@@ -29,9 +29,13 @@ This project builds a scalable ML pipeline for clustering urban noise patterns u
     │   ├── visualization.py    
     │   └── utils.py            
     │
-    ├── app/                    
-    │   ├── streamlit_app.py    # Main Streamlit UI
-    │   └── components/         # reusable UI components
+    ├── dashboard/                    
+    │   ├── app.py    
+    │   ├── templates/
+    │   │   ├── index.html
+    │   │   └── charts.html     
+    │   └── static/      
+    │       └── styles.css        
     │
     ├── requirements.txt
     ├── README.md

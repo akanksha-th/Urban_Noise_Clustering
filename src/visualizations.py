@@ -87,6 +87,7 @@ class GeoEDA:
         m = folium.Map(location=map_center, zoom_start=zoom_start)
         heat_data = self._df[["latitude", "longitude"]].dropna().values.tolist()
         HeatMap(heat_data, radius=8).add_to(m)
+        m.save("outputs/noise_heatmap.html")
         return m
     
 

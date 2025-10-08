@@ -1,7 +1,7 @@
 # src/ensemble.py
 import numpy as np
 import pandas as pd
-from .base import BaseLine
+from .knn import BaseLine
 
 
 def ensemble_voting(X, cluster_labels_dict):

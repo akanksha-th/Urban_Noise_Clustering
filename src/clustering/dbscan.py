@@ -1,10 +1,10 @@
 import numpy as np
 import os
 import json
-from sklearn.cluster import KMeans, AgglomerativeClustering, DBSCAN
-from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 
-class BaseLine:
+class KMeansClustering:
     def __init__(self, X, n_clusters=8):
         self.X = X
         self.n_clusters = n_clusters
@@ -16,7 +16,6 @@ class BaseLine:
             name: {
                 "silhouette": silhouette_score(self.X, labels),
                 "db_index": davies_bouldin_score(self.X, labels),
-                "calinski": calinski_harabasz_score(self.X, labels)
             }
         }
     

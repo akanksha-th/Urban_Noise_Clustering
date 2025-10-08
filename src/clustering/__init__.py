@@ -1,4 +1,4 @@
-from .base import BaseLine
+from .knn import BaseLine
 from .ensemble import ClusterEnsemble
 
 __all__ =[

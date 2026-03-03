@@ -58,6 +58,7 @@ cover/
 
 # Data
 data/raw/
+data/processed/
 
 # Django stuff:
 *.log

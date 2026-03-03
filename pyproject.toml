@@ -5,7 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "dvc>=3.66.1",
+    "fastapi>=0.135.1",
+    "folium>=0.20.0",
+    "matplotlib>=3.10.8",
+    "missingno>=0.5.2",
     "pandas>=3.0.1",
+    "pydantic-settings>=2.13.1",
     "scikit-learn>=1.8.0",
+    "seaborn>=0.13.2",
     "skimpy>=0.0.20",
+    "tqdm>=4.67.3",
+    "uvicorn>=0.41.0",
 ]
